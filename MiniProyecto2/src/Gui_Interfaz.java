@@ -54,7 +54,7 @@ public class Gui_Interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 prestar_libros ini_prestamo = new prestar_libros();
-                ini_prestamo.IniciarComponentes();
+                ini_prestamo.Prestar();
                 ini_prestamo.setVisible(true);
             }
         });
@@ -66,7 +66,7 @@ public class Gui_Interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 prestar_libros ini = new prestar_libros();
-                ini.IniciarComponentes1();
+                ini.Devolver();
                 ini.setVisible(true);
             }
         });
@@ -78,7 +78,7 @@ public class Gui_Interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 prestar_libros ini2 = new prestar_libros();
-                ini2.IniciarComponentes3();
+                ini2.Informes();
                 ini2.setVisible(true);
             }
         });
@@ -90,7 +90,7 @@ public class Gui_Interfaz extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 prestar_libros ini3 = new prestar_libros();
-                ini3.IniciarComponentes2();
+                ini3.EstadoClientes();
                 ini3.setVisible(true);
             }
         });

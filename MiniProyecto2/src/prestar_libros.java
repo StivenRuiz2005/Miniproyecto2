@@ -40,7 +40,7 @@ public class prestar_libros extends JFrame {
         setLocationRelativeTo(null);
 
     }
-    public void IniciarComponentes(){
+    public void Prestar(){
         titulo = new JLabel("Préstamos");
         titulo.setBounds(210, 20, 500, 50);
         titulo.setFont(new Font("TimesRoman", Font.BOLD, 30));
@@ -160,7 +160,7 @@ public class prestar_libros extends JFrame {
         add(regresar);
     }
 
-    public void IniciarComponentes1(){
+    public void Devolver(){
         setTitle("Devoluciones");
         setSize(400, 350);
         setLayout(null);
@@ -290,7 +290,7 @@ public class prestar_libros extends JFrame {
     }
 
 
-    public void IniciarComponentes3(){
+    public void Informes(){
 
         setTitle("Informe Libros");
         setSize(500, 450);
@@ -412,7 +412,7 @@ public class prestar_libros extends JFrame {
         add(regresar);
     }
 
-    public void IniciarComponentes2(){
+    public void EstadoClientes(){
         setTitle("Estado Mora");
         setSize(400, 350);
         setLayout(null);
