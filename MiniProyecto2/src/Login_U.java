@@ -30,6 +30,7 @@ public class Login_U extends JFrame {
         agregar.setSize(380, 330);
         agregar.setLayout(null);
         agregar.setVisible(true);
+        agregar.setLocationRelativeTo(null);
 
         titulo1 = new JLabel("Añadir Usuario");
         titulo1.setBounds(120, 10, 200, 30);
@@ -152,7 +153,7 @@ public class Login_U extends JFrame {
                     }
             }
         });
-        regresar = new JButton("Regresar");
+        regresar = new JButton("Salir");
         regresar.setBounds(190,180,100,50);
         regresar.addActionListener(new ActionListener() {
             @Override

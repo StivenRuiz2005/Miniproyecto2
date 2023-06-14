@@ -5,7 +5,7 @@ import java.util.Objects;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class prestar_libros extends JFrame {
+public class administracion_libros extends JFrame {
     JLabel titulo, pregunta, label_terror, label_novelas, label_ingenieria;
     JTextField nombre;
     static JComboBox<String> comboBoxterror = new JComboBox<>();
@@ -19,7 +19,9 @@ public class prestar_libros extends JFrame {
 
     static ArrayList<UsuariosDeuda> usuarios=new ArrayList<>();
 
-    static Libros[] terror= new Libros[6],novelas = new Libros[6],ingenieria = new Libros[6];
+    static ArrayList<Libros> terror= new ArrayList<>();
+    static ArrayList<Libros> novelas = new ArrayList<>();
+    static ArrayList<Libros> ingenieria = new ArrayList<>();
 
     static String[] libros_terror = {" ","Drácula - Bram Stocker", "It - Stephen King", "El Resplandor - Stephen King",
             "La Llamada De Cthulhu- H.P Lovecraft", "La Chica De Al Lado - Jack Ketchum"};
@@ -33,7 +35,7 @@ public class prestar_libros extends JFrame {
             "Cálculo: Trascendentes tempranas - James Stewart "};
 
 
-    public prestar_libros(){
+    public administracion_libros(){
         setTitle("Préstamos");
         setSize(600,450);
         setLayout(null);
@@ -71,41 +73,7 @@ public class prestar_libros extends JFrame {
         label_ingenieria.setFont(new Font("TimesRoman", Font.BOLD, 15));
         add(label_ingenieria);
 
-        if (n==0){
-            for (int i = 0; i <6;i++){
-                novelas[i] = new Libros();
-                terror[i]= new Libros();
-                ingenieria[i]=new Libros();
-
-                novelas[i].setNombre(libros_novelas[i]);
-                terror[i].setNombre(libros_terror[i]);
-                ingenieria[i].setNombre(libros_ingenieria[i]);
-
-                comboBoxterror.addItem(terror[i].getNombre());
-                comboBoxnovelas.addItem(novelas[i].getNombre());
-                comboBoxingenieria.addItem(ingenieria[i].getNombre());
-            }
-            n++;
-        }
-        else{
-            comboBoxterror.removeAllItems();
-            comboBoxnovelas.removeAllItems();
-            comboBoxingenieria.removeAllItems();
-            for (int i=0; i<6; i++){
-                if (terror[i].isEstado()){
-                    comboBoxterror.addItem(terror[i].getNombre());
-                }
-                if (novelas[i].isEstado()){
-                    comboBoxnovelas.addItem(novelas[i].getNombre());
-                }
-                if (ingenieria[i].isEstado()){
-                    comboBoxingenieria.addItem(ingenieria[i].getNombre());
-                }
-            }
-
-        }
-
-
+        libros();
 
         comboBoxterror.setBounds(150,180,350,20);
         add(comboBoxterror);
@@ -129,18 +97,18 @@ public class prestar_libros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Selección Aceptada");
                 for(int i = 1; i < 6; i++){
-                    if (Objects.equals(comboBoxterror.getSelectedItem(), terror[i].getNombre())) {
-                        terror[i].setNom_usuario(nombre.getText());
-                        terror[i].setEstado(false);
+                    if (Objects.equals(comboBoxterror.getSelectedItem(), terror.get(i).getNombre())) {
+                        terror.get(i).setNom_usuario(nombre.getText());
+                        terror.get(i).setEstado(false);
 
                     }
-                    if (Objects.equals(comboBoxnovelas.getSelectedItem(), novelas[i].getNombre())) {
-                        novelas[i].setNom_usuario(nombre.getText());
-                        novelas[i].setEstado(false);
+                    if (Objects.equals(comboBoxnovelas.getSelectedItem(), novelas.get(i).getNombre())) {
+                        novelas.get(i).setNom_usuario(nombre.getText());
+                        novelas.get(i).setEstado(false);
                     }
-                    if (Objects.equals(comboBoxingenieria.getSelectedItem(), ingenieria[i].getNombre())) {
-                        ingenieria[i].setNom_usuario(nombre.getText());
-                        ingenieria[i].setEstado(false);
+                    if (Objects.equals(comboBoxingenieria.getSelectedItem(), ingenieria.get(i).getNombre())) {
+                        ingenieria.get(i).setNom_usuario(nombre.getText());
+                        ingenieria.get(i).setEstado(false);
                     }
 
 
@@ -159,7 +127,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void Devolver(){
         setTitle("Devoluciones");
         setSize(400, 350);
@@ -174,14 +141,14 @@ public class prestar_libros extends JFrame {
         libros_prestados.removeAllItems();
         try {
             for (int i = 0; i < 6; i++) {
-                if (!terror[i].isEstado()) {
-                    libros_prestados.addItem(terror[i].getNombre());
+                if (!terror.get(i).isEstado()) {
+                    libros_prestados.addItem(terror.get(i).getNombre());
                 }
-                if (!novelas[i].isEstado()) {
-                    libros_prestados.addItem(novelas[i].getNombre());
+                if (!novelas.get(i).isEstado()) {
+                    libros_prestados.addItem(novelas.get(i).getNombre());
                 }
-                if (!ingenieria[i].isEstado()) {
-                    libros_prestados.addItem(ingenieria[i].getNombre());
+                if (!ingenieria.get(i).isEstado()) {
+                    libros_prestados.addItem(ingenieria.get(i).getNombre());
                 }
             }
         }catch (NullPointerException npe){JOptionPane.showMessageDialog(null,"No hay libros prestados");}
@@ -218,24 +185,25 @@ public class prestar_libros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 boolean n=true;
                 String nameusers="";
-                for(int i = 0; i <6 ;i++){
-
-                    if(libros_prestados.getSelectedItem() == terror[i].getNombre()){
-                        nameusers= terror[i].getNom_usuario();
-                        terror[i].setEstado(true);
-                    }
-                    else if(libros_prestados.getSelectedItem() == novelas[i].getNombre()){
-                        nameusers= novelas[i].getNom_usuario();
-                        novelas[i].setEstado(true);
-                    }
-                    else if(libros_prestados.getSelectedItem() == ingenieria[i].getNombre()){
-                        nameusers= ingenieria[i].getNom_usuario();
-                        ingenieria[i].setEstado(true);
-                    }
-                }
-
+                
                 try{
                     int k = Integer.parseInt(diaspre.getText());
+                    for(int i = 0; i <6 ;i++){
+
+                    if(libros_prestados.getSelectedItem() == terror.get(i).getNombre()){
+                        nameusers= terror.get(i).getNom_usuario();
+                        terror.get(i).setEstado(true);
+                    }
+                    else if(libros_prestados.getSelectedItem() == novelas.get(i).getNombre()){
+                        nameusers= novelas.get(i).getNom_usuario();
+                        novelas.get(i).setEstado(true);
+                    }
+                    else if(libros_prestados.getSelectedItem() == ingenieria.get(i).getNombre()){
+                        nameusers= ingenieria.get(i).getNom_usuario();
+                        ingenieria.get(i).setEstado(true);
+                    }
+                }
+                    
                     if(k-7>0){
                         if(usuarios.size()>0){
                             for(int i=0;i<usuarios.size();i++){
@@ -265,14 +233,13 @@ public class prestar_libros extends JFrame {
 
 
                     }
+                JOptionPane.showMessageDialog(null, "Devolución Exitosa");
+                dispose();
                 }catch (NumberFormatException nfe){
                     JOptionPane.showMessageDialog(null, "¡ERROR! Ingrese un dato valido");
                     dispose();
                 }
 
-
-                JOptionPane.showMessageDialog(null, "Devolución Exitosa");
-                dispose();
             }
 
         });
@@ -288,8 +255,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
-
     public void Informes(){
 
         setTitle("Informe Libros");
@@ -318,16 +283,17 @@ public class prestar_libros extends JFrame {
         generar_informe1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                libros();
                 String est="";
                 for (int i = 1;i<6;i++) {
-                    if (terror[i].isEstado()){
+                    if (terror.get(i).isEstado()){
                         est = "Disponible";
-                        terror[i].setNom_usuario("");
+                        terror.get(i).setNom_usuario("");
                     }
                     else{
                         est= "Prestado";
                     }
-                    informe1.setText(informe1.getText() + terror[i].getNombre() + " : \n" + est + " : " + terror[i].getNom_usuario() + "\n \n");
+                    informe1.setText(informe1.getText() + terror.get(i).getNombre() + " : \n" + est + " : " + terror.get(i).getNom_usuario() + "\n \n");
                 }
             }
         });
@@ -351,14 +317,14 @@ public class prestar_libros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String est="";
                 for (int i = 1;i<6;i++) {
-                    if (novelas[i].isEstado()){
+                    if (novelas.get(i).isEstado()){
                         est = "Disponible";
-                        novelas[i].setNom_usuario("");
+                        novelas.get(i).setNom_usuario("");
                     }
                     else{
                         est= "Prestado";
                     }
-                    informe2.setText(informe2.getText() + novelas[i].getNombre() + " : \n" + est + " : " + novelas[i].getNom_usuario() + "\n \n");
+                    informe2.setText(informe2.getText() + novelas.get(i).getNombre() + " : \n" + est + " : " + novelas.get(i).getNom_usuario() + "\n \n");
                 }
             }
         });
@@ -383,14 +349,14 @@ public class prestar_libros extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String est="";
                 for (int i = 1;i<6;i++) {
-                    if (ingenieria[i].isEstado()){
+                    if (ingenieria.get(i).isEstado()){
                         est = "Disponible";
-                        ingenieria[i].setNom_usuario("");
+                        ingenieria.get(i).setNom_usuario("");
                     }
                     else{
                         est= "Prestado";
                     }
-                    informe3.setText(informe3.getText() + ingenieria[i].getNombre() + " : \n" + est + " : " + ingenieria[i].getNom_usuario() + "\n \n");
+                    informe3.setText(informe3.getText() + ingenieria.get(i).getNombre() + " : \n" + est + " : " + ingenieria.get(i).getNom_usuario() + "\n \n");
                 }
 
             }
@@ -411,7 +377,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void EstadoClientes(){
         setTitle("Estado Mora");
         setSize(400, 350);
@@ -454,7 +419,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void pagar() {
         setTitle("Pagar Deuda");
         setSize(400, 400);
@@ -512,5 +476,39 @@ public class prestar_libros extends JFrame {
         add(regresar);
 
     }
+    public void libros(){
+        if (n==0){
+            for (int i = 0; i <6;i++){
+                novelas.add(new Libros()); 
+                terror.add(new Libros());
+                ingenieria.add(new Libros());
 
+                novelas.get(i).setNombre(libros_novelas[i]);
+                terror.get(i).setNombre(libros_terror[i]);
+                ingenieria.get(i).setNombre(libros_ingenieria[i]);
+
+                comboBoxterror.addItem(terror.get(i).getNombre());
+                comboBoxnovelas.addItem(novelas.get(i).getNombre());
+                comboBoxingenieria.addItem(ingenieria.get(i).getNombre());
+            }
+            n++;
+        }
+        else{
+            comboBoxterror.removeAllItems();
+            comboBoxnovelas.removeAllItems();
+            comboBoxingenieria.removeAllItems();
+            for (int i=0; i<6; i++){
+                if (terror.get(i).isEstado()){
+                    comboBoxterror.addItem(terror.get(i).getNombre());
+                }
+                if (novelas.get(i).isEstado()){
+                    comboBoxnovelas.addItem(novelas.get(i).getNombre());
+                }
+                if (ingenieria.get(i).isEstado()){
+                    comboBoxingenieria.addItem(ingenieria.get(i).getNombre());
+                }
+            }
+
+        }
+    }
 }
