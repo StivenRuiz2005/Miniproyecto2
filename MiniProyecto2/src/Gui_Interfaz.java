@@ -53,7 +53,7 @@ public class Gui_Interfaz extends JFrame{
         prestar_libros.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                prestar_libros ini_prestamo = new prestar_libros();
+                administracion_libros ini_prestamo = new administracion_libros();
                 ini_prestamo.Prestar();
                 ini_prestamo.setVisible(true);
             }
@@ -65,7 +65,7 @@ public class Gui_Interfaz extends JFrame{
         devolucion_libros.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                prestar_libros ini = new prestar_libros();
+                administracion_libros ini = new administracion_libros();
                 ini.Devolver();
                 ini.setVisible(true);
             }
@@ -77,7 +77,7 @@ public class Gui_Interfaz extends JFrame{
         informe_libros.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                prestar_libros ini2 = new prestar_libros();
+                administracion_libros ini2 = new administracion_libros();
                 ini2.Informes();
                 ini2.setVisible(true);
             }
@@ -89,7 +89,7 @@ public class Gui_Interfaz extends JFrame{
         estado_mora.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                prestar_libros ini3 = new prestar_libros();
+                administracion_libros ini3 = new administracion_libros();
                 ini3.EstadoClientes();
                 ini3.setVisible(true);
             }
@@ -101,7 +101,7 @@ public class Gui_Interfaz extends JFrame{
         pagar_deuda.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                prestar_libros ini4 = new prestar_libros();
+                administracion_libros ini4 = new administracion_libros();
                 ini4.pagar();
                 ini4.setVisible(true);
             }

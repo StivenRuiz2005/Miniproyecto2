@@ -5,7 +5,7 @@ import java.util.Objects;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class prestar_libros extends JFrame {
+public class administracion_libros extends JFrame {
     JLabel titulo, pregunta, label_terror, label_novelas, label_ingenieria;
     JTextField nombre;
     static JComboBox<String> comboBoxterror = new JComboBox<>();
@@ -33,7 +33,7 @@ public class prestar_libros extends JFrame {
             "Cálculo: Trascendentes tempranas - James Stewart "};
 
 
-    public prestar_libros(){
+    public administracion_libros(){
         setTitle("Préstamos");
         setSize(600,450);
         setLayout(null);
@@ -71,41 +71,7 @@ public class prestar_libros extends JFrame {
         label_ingenieria.setFont(new Font("TimesRoman", Font.BOLD, 15));
         add(label_ingenieria);
 
-        if (n==0){
-            for (int i = 0; i <6;i++){
-                novelas[i] = new Libros();
-                terror[i]= new Libros();
-                ingenieria[i]=new Libros();
-
-                novelas[i].setNombre(libros_novelas[i]);
-                terror[i].setNombre(libros_terror[i]);
-                ingenieria[i].setNombre(libros_ingenieria[i]);
-
-                comboBoxterror.addItem(terror[i].getNombre());
-                comboBoxnovelas.addItem(novelas[i].getNombre());
-                comboBoxingenieria.addItem(ingenieria[i].getNombre());
-            }
-            n++;
-        }
-        else{
-            comboBoxterror.removeAllItems();
-            comboBoxnovelas.removeAllItems();
-            comboBoxingenieria.removeAllItems();
-            for (int i=0; i<6; i++){
-                if (terror[i].isEstado()){
-                    comboBoxterror.addItem(terror[i].getNombre());
-                }
-                if (novelas[i].isEstado()){
-                    comboBoxnovelas.addItem(novelas[i].getNombre());
-                }
-                if (ingenieria[i].isEstado()){
-                    comboBoxingenieria.addItem(ingenieria[i].getNombre());
-                }
-            }
-
-        }
-
-
+        libros();
 
         comboBoxterror.setBounds(150,180,350,20);
         add(comboBoxterror);
@@ -159,7 +125,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void Devolver(){
         setTitle("Devoluciones");
         setSize(400, 350);
@@ -288,8 +253,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
-
     public void Informes(){
 
         setTitle("Informe Libros");
@@ -318,6 +281,7 @@ public class prestar_libros extends JFrame {
         generar_informe1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                libros();
                 String est="";
                 for (int i = 1;i<6;i++) {
                     if (terror[i].isEstado()){
@@ -411,7 +375,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void EstadoClientes(){
         setTitle("Estado Mora");
         setSize(400, 350);
@@ -454,7 +417,6 @@ public class prestar_libros extends JFrame {
         });
         add(regresar);
     }
-
     public void pagar() {
         setTitle("Pagar Deuda");
         setSize(400, 400);
@@ -512,5 +474,39 @@ public class prestar_libros extends JFrame {
         add(regresar);
 
     }
+    public void libros(){
+        if (n==0){
+            for (int i = 0; i <6;i++){
+                novelas[i] = new Libros();
+                terror[i]= new Libros();
+                ingenieria[i]=new Libros();
 
+                novelas[i].setNombre(libros_novelas[i]);
+                terror[i].setNombre(libros_terror[i]);
+                ingenieria[i].setNombre(libros_ingenieria[i]);
+
+                comboBoxterror.addItem(terror[i].getNombre());
+                comboBoxnovelas.addItem(novelas[i].getNombre());
+                comboBoxingenieria.addItem(ingenieria[i].getNombre());
+            }
+            n++;
+        }
+        else{
+            comboBoxterror.removeAllItems();
+            comboBoxnovelas.removeAllItems();
+            comboBoxingenieria.removeAllItems();
+            for (int i=0; i<6; i++){
+                if (terror[i].isEstado()){
+                    comboBoxterror.addItem(terror[i].getNombre());
+                }
+                if (novelas[i].isEstado()){
+                    comboBoxnovelas.addItem(novelas[i].getNombre());
+                }
+                if (ingenieria[i].isEstado()){
+                    comboBoxingenieria.addItem(ingenieria[i].getNombre());
+                }
+            }
+
+        }
+    }
 }
