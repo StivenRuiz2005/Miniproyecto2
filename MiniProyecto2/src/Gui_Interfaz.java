@@ -7,8 +7,6 @@ public class Gui_Interfaz extends JFrame{
     JButton agregar_bibliotecario,prestar_libros,devolucion_libros, informe_libros, estado_mora, salir, pagar_deuda, login;
     JLabel titulo;
 
-    
-
 
     public Gui_Interfaz(){
         setTitle("Biblioteca");

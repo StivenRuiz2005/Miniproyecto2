@@ -11,10 +11,12 @@ public class Login_U extends JFrame {
     private JLabel titulo,titulo1;
     private JTextField usuario,usuario1;
     private JPasswordField contrasena,contrasena1;
-    private JButton ingresar, regresar,registrar1;
-    static int j=0;
+    private JButton ingresar, regresar,registrar1,registrar2;
+    static int j=0,k=0;
+    static boolean maestro= true,sencillo=true;
 
-    static ArrayList<Bibliotecarios> bibliotecario = new ArrayList<>();
+    static ArrayList<Bibliotecarios> bibliotecario_sencillo = new ArrayList<>();
+    static ArrayList<Bibliotecarios> bibliotecario_maestro = new ArrayList<>();
 
 
     public Login_U() {
@@ -57,21 +59,42 @@ public class Login_U extends JFrame {
         contrasena1.setFont(new Font("TimesRoman", Font.BOLD, 10));
         agregar.add(contrasena1);
 
-        registrar1 = new JButton("Registrar");
+        registrar1 = new JButton("Sencillo");
         registrar1.setBounds(70, 200, 100, 50);
         agregar.add(registrar1);
 
         registrar1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bibliotecario.add(new Bibliotecarios());
+                bibliotecario_sencillo.add(new Bibliotecarios());
                 char[] contrasena_conv = contrasena1.getPassword();
                 String contrasena_s = String.valueOf(contrasena_conv);
 
-                bibliotecario.get(j).setNombre(usuario1.getText());
-                bibliotecario.get(j).setContrasena(contrasena_s);
+                bibliotecario_sencillo.get(j).setNombre(usuario1.getText());
+                bibliotecario_sencillo.get(j).setContrasena(contrasena_s);
 
                 j++;
+
+                JOptionPane.showMessageDialog(null, "Registro Exitoso");
+                agregar.dispose();
+            }
+        });
+
+        registrar2 = new JButton("Maestro");
+        registrar2.setBounds(200, 200, 100, 50);
+        agregar.add(registrar2);
+
+        registrar2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bibliotecario_maestro.add(new Bibliotecarios());
+                char[] contrasena_conv = contrasena1.getPassword();
+                String contrasena_s = String.valueOf(contrasena_conv);
+
+                bibliotecario_maestro.get(k).setNombre(usuario1.getText());
+                bibliotecario_maestro.get(k).setContrasena(contrasena_s);
+
+                k++;
 
                 JOptionPane.showMessageDialog(null, "Registro Exitoso");
                 agregar.dispose();
@@ -123,34 +146,19 @@ public class Login_U extends JFrame {
                     usuario.getText();
                     char[] contrasena_conv = contrasena.getPassword();
                     String contrasena_s = new String(contrasena_conv);
-                    if (contrasena_s.equals("hola") && usuario.getText().equals("Carlos")) {
+                    if ((contrasena_s.equals("hola") && usuario.getText().equals("Carlos"))) {
                         JOptionPane.showMessageDialog(null, "Acceso concedido, bienvenido admin");
                         Gui_Interfaz frame = new Gui_Interfaz();
                         frame.setVisible(true);
                         frame.agregar_bibliotecario.setEnabled(true);
                         dispose();
 
-                    } else {
-                        if (bibliotecario.size()>0){
-                            for (int i = 0; i < bibliotecario.size(); i++) {
-                                if (contrasena_s.equals((bibliotecario.get(i)).getContrasena()) && usuario.getText().equals(bibliotecario.get(i).getNombre())) {
-                                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
-                                    Gui_Interfaz frame = new Gui_Interfaz();
-                                    frame.setVisible(true);
-                                    frame.agregar_bibliotecario.setEnabled(false);
-                                    dispose();
-                                }
-                                else{
-                                    JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrecta");
-
-                                }
-                        }
-
-                        }else{
-                            JOptionPane.showMessageDialog(null,"No existe o no se ha creado ningun bibliotecario");
-                        }
-
                     }
+                    else if (comprobar_maestro(contrasena_s)&&(comprobar_sencillo(contrasena_s))){
+                            JOptionPane.showMessageDialog(null,"Usuario no existente o datos mal ingresados"); 
+                        }    
+                    
+                    
             }
         });
         regresar = new JButton("Salir");
@@ -163,5 +171,47 @@ public class Login_U extends JFrame {
         });
         add(regresar);
     }
+    public boolean comprobar_maestro(String g){
+        if(bibliotecario_maestro.size()>0){
+            for (int i = 0; i < bibliotecario_maestro.size(); i++) {
+                if (g.equals((bibliotecario_maestro.get(i)).getContrasena()) && usuario.getText().equals(bibliotecario_maestro.get(i).getNombre())) {
+                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso maestro");
+                    Gui_Interfaz frame = new Gui_Interfaz();
+                    frame.setVisible(true);
+                    frame.agregar_bibliotecario.setEnabled(true);
+                    dispose();
+                    maestro = false;
+                    break;
+                }
+                else{
+                    maestro = true;
+                }
+            }
+            
+        }
+
+        return maestro;
+    }
+    public boolean comprobar_sencillo(String a){
+        if (bibliotecario_sencillo.size()>0){
+            for (int i = 0; i < bibliotecario_sencillo.size(); i++) {
+                if (a.equals((bibliotecario_sencillo.get(i)).getContrasena()) && usuario.getText().equals(bibliotecario_sencillo.get(i).getNombre())) {
+                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso sencillo");
+                        Gui_Interfaz frame = new Gui_Interfaz();
+                        frame.setVisible(true);
+                        frame.agregar_bibliotecario.setEnabled(false);
+                        dispose();
+                        sencillo= false;
+                        break;
+                 }
+                 else{
+                    sencillo= true;
+                }
+            }
+        }
+        
+        return sencillo;
+    }
+
 
 }
